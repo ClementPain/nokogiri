@@ -1,36 +1,24 @@
-require 'rubygems'
-require 'open-uri'
-require 'nokogiri'
+require_relative '../lib/dark_trader'
 
 page = Nokogiri::HTML(open("https://coinmarketcap.com/all/views/all/"))
-
-
-
 currencies = page.xpath('//div[@class="cmc-table__column-name sc-1kxikfi-0 eTVhdN"]//a[@class="cmc-link"]')
 rates = page.xpath('//tr[@class="cmc-table-row"]/td[@class="cmc-table__cell cmc-table__cell--sortable cmc-table__cell--right cmc-table__cell--sort-by__price"]/a[@class="cmc-link"]' )
 
+describe 'the crypto_scrapper method' do
 
-def crypto_scrapper(currencies, rates)
-	currencies_rates_array = []
-
-	my_hash = Hash.new
-
-	for i in 0..( currencies.length - 1 )
-		
-		my_hash[currencies[i].text] = rates[i].text
-		currencies_rates_array << my_hash
-		my_hash = Hash.new
-
+	it 'works'do 
+		expect(crypto_scrapper(currencies, rates)).is_a? Array
 	end
-	
-	return currencies_rates_array
-end
 
-# puts crypto_scrapper(currencies, rates)
+	it 'contains currencies and rates' do
+		expect(crypto_scrapper(currencies, rates).length).to be > 50
 
-expected_3 = ""
+		expected_3 = ""
 		crypto_scrapper(currencies, rates).each do |hashs|
 			expected_3 = hashs["Bitcoin"] if !hashs["Bitcoin"].nil?
 		end
 
-puts expected_3
+		expect(expected_3).is_a? Float
+		
+	end
+end

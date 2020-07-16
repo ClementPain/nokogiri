@@ -17,7 +17,13 @@ def deputes_contact(list_names, from, to)
 		if !list_names[i].nil?
 			my_hash["first_name"] = list_names[i].text.split(', ')[1].strip
 			my_hash["last_name"] = list_names[i].text.split(', ')[0].strip
-			my_hash["email"] = find_email(my_hash["first_name"], my_hash["last_name"])
+			
+			begin
+				my_hash["email"] = find_email(my_hash["first_name"], my_hash["last_name"])
+			rescue=>e
+				puts "Impossible d'accéder à la page de #{my_hash["first_name"]} #{my_hash["last_name"]}"
+				my_hash["email"] = ""
+			end
 
 			deputes_contact_array << my_hash
 
@@ -51,4 +57,4 @@ end
 
 # puts find_email("damien", "abad")
 
-puts deputes_contact(names, 0, 10)
+puts deputes_contact(names, 130, 140)

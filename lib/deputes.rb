@@ -7,17 +7,17 @@ page = Nokogiri::HTML(open("https://www.nosdeputes.fr/deputes"))
 names = page.xpath('//span[@class="list_nom"]')
 
 
-def deputes_contact(list_names)
+def deputes_contact(list_names, from, to)
 
 	deputes_contact_array = []
 
 	my_hash = {}
 
-	for i in 0..400#( list_names.length - 1 )
+	for i in from..to #( list_names.length - 1 )
 		if !list_names[i].nil?
 			my_hash["first_name"] = list_names[i].text.split(', ')[1].strip
 			my_hash["last_name"] = list_names[i].text.split(', ')[0].strip
-			my_hash["email"] = find_emails(my_hash["first_name"], my_hash["last_name"])
+			my_hash["email"] = find_email(my_hash["first_name"], my_hash["last_name"])
 
 			deputes_contact_array << my_hash
 
@@ -30,7 +30,7 @@ end
 
 
 
-def find_emails(firstname, lastname)
+def find_email(firstname, lastname)
 
 	first_name_mail = firstname.downcase.unicode_normalize(:nfkd).encode('ASCII', replace: '').gsub(/[ ']/, "-")
 
@@ -49,6 +49,6 @@ def find_emails(firstname, lastname)
 	end
 end
 
-# puts find_emails("damien", "abad")
+# puts find_email("damien", "abad")
 
-puts deputes_contact(names)
+puts deputes_contact(names, 0, 10)

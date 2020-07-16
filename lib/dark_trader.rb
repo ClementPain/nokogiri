@@ -17,7 +17,7 @@ def crypto_scrapper(currencies, rates)
 
 	for i in 0..( currencies.length - 1 )
 		
-		my_hash[currencies[i].text] = rates[i].text
+		my_hash[currencies[i].text] = rates[i].text.gsub(/[$,]/, "").to_f
 		currencies_rates_array << my_hash
 		my_hash = Hash.new
 
@@ -27,10 +27,3 @@ def crypto_scrapper(currencies, rates)
 end
 
 # puts crypto_scrapper(currencies, rates)
-
-expected_3 = ""
-		crypto_scrapper(currencies, rates).each do |hashs|
-			expected_3 = hashs["Bitcoin"] if !hashs["Bitcoin"].nil?
-		end
-
-puts expected_3

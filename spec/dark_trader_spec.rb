@@ -7,7 +7,7 @@ rates = page.xpath('//tr[@class="cmc-table-row"]/td[@class="cmc-table__cell cmc-
 describe 'the crypto_scrapper method' do
 
 	it 'works'do 
-		expect(crypto_scrapper(currencies, rates)).is_a? Array
+		expect(crypto_scrapper(currencies, rates)).to be_an(Array)
 	end
 
 	it 'contains currencies and rates' do
@@ -18,7 +18,7 @@ describe 'the crypto_scrapper method' do
 			expected_3 = hashs["Bitcoin"] if !hashs["Bitcoin"].nil?
 		end
 
-		expect(expected_3).is_a? Float
+		expect(expected_3).to be_a(Float)
 		
 	end
 end
